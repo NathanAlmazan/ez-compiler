@@ -178,17 +178,17 @@ public class Analyzer {
                         cursor = 0; // reset cursor
                         currentState = Q.S0; // reset state
                     }
-                    case R8 -> {
+                    case R8 -> { // ignore unnecessary spaces
                         cursor = 0; // reset cursor
                         currentState = Q.S0; // reset state
                     }
                     case R9 -> {
-                        reduceValues(Tokens.TAB, 4); // ignore comments
+                        reduceValues(Tokens.TAB, 4); // reduce 4 spaces to a tab space
                         cursor = 0; // reset cursor
                         currentState = Q.S0; // reset state
                     }
                     case R10 -> {
-                        reduceValues(Tokens.DECIMAL, cursor); // ignore comments
+                        reduceValues(Tokens.DECIMAL, cursor); // reduce decimal values
                         cursor = 0; // reset cursor
                         currentState = Q.S0; // reset state
                     }
@@ -218,7 +218,7 @@ public class Analyzer {
         code block while dedent specify the end of a code
         block.
     */
-    public void analyzeLexemes() throws Exception {
+    public void optimizeLexemes() throws Exception {
         Stack<Lexeme> newLexemes = new Stack<>();
 
         int indent = 0; // count of nested indent
