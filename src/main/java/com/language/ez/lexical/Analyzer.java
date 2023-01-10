@@ -271,6 +271,15 @@ public class Analyzer {
 
                     index += skipped; // go to next lexeme
                 }
+                case DECIMAL -> { // bug fix when last character is period
+                    if (current.getValue().endsWith(".")) {
+                        newLexemes.push(new Lexeme(Tokens.INTEGER, current.getValue().substring(0, current.getValue().length() -1)));
+                        newLexemes.push(new Lexeme(Tokens.STATEMENT_END, "."));
+                    } else {
+                        newLexemes.push(current);
+                    }
+                    index++;
+                }
                 default -> {
                     // push to new stack if not space
                     if (current.getToken() != Tokens.UNKNOWN) newLexemes.push(current);
