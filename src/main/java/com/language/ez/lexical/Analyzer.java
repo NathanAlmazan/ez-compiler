@@ -70,7 +70,7 @@ public class Analyzer {
         alphabet.put(">", Tokens.MORE_THAN);
         alphabet.put("<=", Tokens.LESS_THAN_EQUAL);
         alphabet.put(">=", Tokens.MORE_THAN_EQUAL);
-        alphabet.put("!", Tokens.NOT_OPERATOR);
+        alphabet.put("!", Tokens.CONSTANT_TYPE);
 
         // alphabets of special symbols (subject for revision)
         alphabet.put(".", Tokens.STATEMENT_END);
@@ -110,6 +110,7 @@ public class Analyzer {
         alphabet.put("task", Tokens.FUNCTION_DECLARATION);
         alphabet.put("on", Tokens.BOOLEAN_TRUE);
         alphabet.put("off", Tokens.BOOLEAN_FALSE);
+        alphabet.put("not", Tokens.NOT_OPERATOR);
     }
 
     public Analyzer(List<String> statements) {
@@ -134,6 +135,7 @@ public class Analyzer {
         // scan each code lines
         for (int x = 0; x <= statements.size(); x++) {
             String statement = x < statements.size() ? statements.get(x) : "\n"; // need extra line or last token will be missed (bug solution)
+
             // scan each character in a line
             int index = 0;
             while (index < statement.length()) {
@@ -288,6 +290,10 @@ public class Analyzer {
             }
         }
 
+        for (int i = 0; i < indent; i++) {
+            newLexemes.push(new Lexeme(Tokens.DEDENT, null));
+        }
+
         // update lexemes but ignore new line tokens because it is used only to detect indents
         this.lexemes.clear();
         for (Lexeme lexeme : newLexemes) {
@@ -308,9 +314,13 @@ public class Analyzer {
     private void reduceValues(Tokens tokenType, int valueLength) {
         StringBuilder value = new StringBuilder();
 
-        for (int x = 0; x < valueLength; x++) {
+        int index = 0;
+        while (index < valueLength) {
             Lexeme lexeme = this.lexemes.pop(); // pop values that will be reduced
-            value.insert(0, lexeme.getValue()); // concat collected values
+            if (lexeme.getValue() != null) {
+                value.insert(0, lexeme.getValue()); // concat collected values
+                index++;
+            }
         }
 
         Lexeme newLexeme = new Lexeme(tokenType, value.toString()); // save concat value in new lexeme
