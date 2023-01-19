@@ -13,7 +13,7 @@ public class Analyzer {
         //                   Q                   n     +     -      *     /    %      ^     =     <      >    spc   ltr   _     "     '       ?       .
         transitionTable.put(Q.S0,  Arrays.asList(Q.S1, Q.S3, Q.S2, Q.S4, Q.S4, Q.S4, Q.S4, Q.S4, Q.S14, Q.S4, Q.S18,Q.S6, Q.X,  Q.S8, Q.S10, Q.S13,Q.S13)); // machine entry point
         transitionTable.put(Q.S1,  Arrays.asList(Q.S1, Q.R1, Q.R1, Q.R1, Q.R1, Q.R1, Q.R1, Q.R1, Q.R1,  Q.R1, Q.R1, Q.X,  Q.X,  Q.X,  Q.X,   Q.R1, Q.S22)); // number rules
-        transitionTable.put(Q.S2,  Arrays.asList(Q.S1, Q.X,  Q.S5, Q.X,  Q.X,  Q.X,  Q.X,  Q.S5, Q.X,   Q.X,  Q.R2, Q.R2, Q.X,  Q.X,  Q.X,   Q.R2, Q.X  )); // subtraction rules
+        transitionTable.put(Q.S2,  Arrays.asList(Q.S1, Q.X,  Q.S5, Q.X,  Q.X,  Q.X,  Q.X,  Q.S5, Q.X,   Q.S5,  Q.R2, Q.R2, Q.X,  Q.X,  Q.X,   Q.R2, Q.X  )); // subtraction rules
         transitionTable.put(Q.S3,  Arrays.asList(Q.R2, Q.S5, Q.R2, Q.X,  Q.X,  Q.X,  Q.X,  Q.S5, Q.X,   Q.X,  Q.R2, Q.R2, Q.X,  Q.R2, Q.R2,  Q.R2, Q.X  )); // addition rules
         transitionTable.put(Q.S4,  Arrays.asList(Q.R2, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S5, Q.X,   Q.X,  Q.R2, Q.R2, Q.X,  Q.X,  Q.X,   Q.R2, Q.X  )); // other operation symbol rules
         transitionTable.put(Q.S5,  Arrays.asList(Q.R2, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,   Q.X,  Q.R2, Q.R2, Q.X,  Q.X,  Q.X,   Q.R2, Q.R2 )); // relational, increment and decrement operation symbol rules
@@ -61,37 +61,39 @@ public class Analyzer {
         alphabet.put("++", Tokens.INCREMENT_OPERATOR);
         alphabet.put("--", Tokens.DECREMENT_OPERATOR);
         alphabet.put("+=", Tokens.ADDITION_ASSIGNMENT);
-        alphabet.put("-=", Tokens.SUBTRACTION_ASSIGNMENT);
-        alphabet.put("*=", Tokens.MULTIPLICATION_ASSIGNMENT);
-        alphabet.put("/=", Tokens.DIVISION_ASSIGNMENT);
-        alphabet.put("%=", Tokens.MODULO_ASSIGNMENT);
-        alphabet.put("==", Tokens.EQUALITY);
-        alphabet.put("<", Tokens.LESS_THAN);
-        alphabet.put(">", Tokens.MORE_THAN);
-        alphabet.put("<=", Tokens.LESS_THAN_EQUAL);
-        alphabet.put(">=", Tokens.MORE_THAN_EQUAL);
+        alphabet.put("-=", Tokens.SUBTRACTION_ASSIGNMENT_OPERATOR);
+        alphabet.put("*=", Tokens.MULTIPLICATION_ASSIGNMENT_OPERATOR);
+        alphabet.put("/=", Tokens.DIVISION_ASSIGNMENT_OPERATOR);
+        alphabet.put("%=", Tokens.MODULO_ASSIGNMENT_OPERATOR);
+        alphabet.put("==", Tokens.EQUALITY_OPERATOR);
+        alphabet.put("<", Tokens.LESS_THAN_OPERATOR);
+        alphabet.put(">", Tokens.MORE_THAN_OPERATOR);
+        alphabet.put("<=", Tokens.LESS_THAN_EQUAL_OPERATOR);
+        alphabet.put(">=", Tokens.MORE_THAN_EQUAL_OPERATOR);
         alphabet.put("!", Tokens.CONSTANT_TYPE);
 
         // alphabets of special symbols (subject for revision)
-        alphabet.put(".", Tokens.STATEMENT_END);
-        alphabet.put(":", Tokens.COLON_SEPARATOR);
-        alphabet.put(",", Tokens.COMMA_SEPARATOR);
+        alphabet.put(".", Tokens.STATEMENT_END_DELIMITER);
+        alphabet.put(":", Tokens.COLON_DELIMITER);
+        alphabet.put(",", Tokens.COMMA_DELIMITER);
         alphabet.put("@", Tokens.CONCAT_SYMBOL);
-        alphabet.put("{", Tokens.OPEN_DICT);
-        alphabet.put("}", Tokens.CLOSE_DICT);
-        alphabet.put("(", Tokens.OPEN_PARENTHESIS);
-        alphabet.put(")", Tokens.CLOSE_PARENTHESIS);
-        alphabet.put("[", Tokens.OPEN_LIST);
-        alphabet.put("]", Tokens.CLOSE_LIST);
+        alphabet.put("{", Tokens.OPEN_DICT_DELIMITER);
+        alphabet.put("}", Tokens.CLOSE_DICT_DELIMITER);
+        alphabet.put("(", Tokens.OPEN_PARENTHESIS_DELIMITER);
+        alphabet.put(")", Tokens.CLOSE_PARENTHESIS_DELIMITER);
+        alphabet.put("[", Tokens.OPEN_LIST_DELIMITER);
+        alphabet.put("]", Tokens.CLOSE_LIST_DELIMITER);
         alphabet.put("?", Tokens.NULL_TYPE);
-        
+        alphabet.put("|", Tokens.NULL_ASSERTION_DELIMITER);
+        alphabet.put("->", Tokens.ACCESS_OBJECT_DELIMITER);
+
         // alphabet of keywords and reserve words (subject for revision)
-        alphabet.put("int", Tokens.DATA_TYPE);
-        alphabet.put("dec", Tokens.DATA_TYPE);
-        alphabet.put("ltr", Tokens.DATA_TYPE);
-        alphabet.put("wrd", Tokens.DATA_TYPE);
-        alphabet.put("btn", Tokens.DATA_TYPE);
-        alphabet.put("to", Tokens.ASSIGN_KEYWORD);
+        alphabet.put("int", Tokens.INT_DATA_TYPE);
+        alphabet.put("dec", Tokens.DEC_DATA_TYPE);
+        alphabet.put("ltr", Tokens.LTR_DATA_TYPE);
+        alphabet.put("wrd", Tokens.WRD_DATA_TYPE);
+        alphabet.put("btn", Tokens.BTN_DATA_TYPE);
+        alphabet.put("to", Tokens.ASSIGN_OR_SCOPE_KEYWORD);
         alphabet.put("from", Tokens.SCOPE_KEYWORD);
         alphabet.put("as", Tokens.ASSIGN_TYPE_KEYWORD);
         alphabet.put("if", Tokens.IF_KEYWORD);
@@ -105,12 +107,15 @@ public class Analyzer {
         alphabet.put("do", Tokens.LOOP_KEYWORD);
         alphabet.put("and", Tokens.AND_OPERATOR);
         alphabet.put("or", Tokens.OR_OPERATOR);
-        alphabet.put("put", Tokens.SCANNER_DECLARATION);
-        alphabet.put("out", Tokens.RETURN_STATEMENT);
-        alphabet.put("task", Tokens.FUNCTION_DECLARATION);
-        alphabet.put("on", Tokens.BOOLEAN_TRUE);
-        alphabet.put("off", Tokens.BOOLEAN_FALSE);
+        alphabet.put("put", Tokens.SCANNER_DECLARATION_KEYWORD);
+        alphabet.put("out", Tokens.RETURN_STATEMENT_KEYWORD);
+        alphabet.put("task", Tokens.FUNCTION_DECLARATION_KEYWORD);
+        alphabet.put("on", Tokens.BOOLEAN_TRUE_RESERVE_WORD);
+        alphabet.put("off", Tokens.BOOLEAN_FALSE_RESERVE_WORD);
         alphabet.put("not", Tokens.NOT_OPERATOR);
+        alphabet.put("model", Tokens.MODEL_DECLARATION_KEYWORD);
+        alphabet.put("default", Tokens.IMPLEMENTING_TASK_KEYWORD);
+        alphabet.put("T", Tokens.DYNAMIC_TYPE_RESERVE_WORD);
     }
 
     public Analyzer(List<String> statements) {
@@ -238,11 +243,11 @@ public class Analyzer {
                     newLexemes.push(new Lexeme(token, current.getValue()));
 
                     // check for indention
-                    if ((token == Tokens.COLON_SEPARATOR || token == Tokens.COMMA_SEPARATOR) && (index + 1) < this.lexemes.size()) {
+                    if ((token == Tokens.COLON_DELIMITER || token == Tokens.COMMA_DELIMITER) && (index + 1) < this.lexemes.size()) {
                         Lexeme next = this.lexemes.get(index + 1);
 
                         if (next.getToken() == Tokens.NEW_LINE) {
-                            newLexemes.push(new Lexeme(Tokens.INDENT, null)); // push indent
+                            newLexemes.push(new Lexeme(Tokens.INDENT_DELIMITER, null)); // push indent
                             indent++; // record indention to ignore tabs later
                         }
                     }
@@ -265,7 +270,7 @@ public class Analyzer {
                         for (int i = 1; i <= temp; i++) {
                             if (this.lexemes.get(index + i).getToken() == Tokens.TAB) skipped++; // skip tabs if indented
                             else {
-                                newLexemes.push(new Lexeme(Tokens.DEDENT, null)); // push dedent if indent ends
+                                newLexemes.push(new Lexeme(Tokens.DEDENT_DELIMITER, null)); // push dedent if indent ends
                                 indent--; // delete record of indention
                             }
                         }
@@ -276,7 +281,7 @@ public class Analyzer {
                 case DECIMAL -> { // bug fix when last character is period
                     if (current.getValue().endsWith(".")) {
                         newLexemes.push(new Lexeme(Tokens.INTEGER, current.getValue().substring(0, current.getValue().length() -1)));
-                        newLexemes.push(new Lexeme(Tokens.STATEMENT_END, "."));
+                        newLexemes.push(new Lexeme(Tokens.STATEMENT_END_DELIMITER, "."));
                     } else {
                         newLexemes.push(current);
                     }
@@ -291,13 +296,32 @@ public class Analyzer {
         }
 
         for (int i = 0; i < indent; i++) {
-            newLexemes.push(new Lexeme(Tokens.DEDENT, null));
+            newLexemes.push(new Lexeme(Tokens.DEDENT_DELIMITER, null));
         }
 
         // update lexemes but ignore new line tokens because it is used only to detect indents
         this.lexemes.clear();
-        for (Lexeme lexeme : newLexemes) {
-            if (lexeme.getToken() != Tokens.NEW_LINE) this.lexemes.push(lexeme);
+        int z = 0;
+        while (z < newLexemes.size()) {
+            Lexeme currentLexeme = newLexemes.get(z);
+            if (currentLexeme.getToken() == Tokens.IDENTIFIER) {
+                if (newLexemes.get(z + 1).getToken() == Tokens.CONSTANT_TYPE) {
+                    this.lexemes.push(new Lexeme(Tokens.CONSTANT_IDENTIFIER, currentLexeme.getValue() + "!"));
+                    z++;
+                }
+                else if (newLexemes.get(z + 1).getToken() == Tokens.NULL_TYPE) {
+                    this.lexemes.push(new Lexeme(Tokens.NULLABLE_IDENTIFIER, currentLexeme.getValue() + "?"));
+                    z++;
+                }
+                else {
+                    this.lexemes.push(currentLexeme);
+                }
+            }
+            else if (currentLexeme.getToken() != Tokens.NEW_LINE &&
+                    currentLexeme.getToken() != Tokens.TAB) {
+                this.lexemes.push(currentLexeme);
+            }
+            z++;
         }
     }
 
