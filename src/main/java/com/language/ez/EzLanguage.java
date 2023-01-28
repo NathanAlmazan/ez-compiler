@@ -1,7 +1,10 @@
 package com.language.ez;
 
-import com.language.ez.lexical.Analyzer;
+import com.language.ez.lexical.LAnalyzer;
 import com.language.ez.lexical.Lexeme;
+import com.language.ez.syntax.Node;
+import com.language.ez.syntax.SAnalyzer;
+import com.language.ez.syntax.Statements;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -29,15 +32,35 @@ public class EzLanguage {
 
             // start lexical analyzer and catch errors if any
             try {
-                Analyzer lexicalAnalyzer = new Analyzer(statements);
-                lexicalAnalyzer.analyzeStatements(); // start scanning for lexemes/tokens
-                lexicalAnalyzer.optimizeLexemes(); // simplify tokens for better readability and performance later in the syntax analyzer
+                LAnalyzer lexicalLAnalyzer = new LAnalyzer(statements);
+                lexicalLAnalyzer.analyzeStatements(); // start scanning for lexemes/tokens
+                lexicalLAnalyzer.optimizeLexemes(); // simplify tokens for better readability and performance later in the syntax analyzer
 
-                for (Lexeme lexeme : lexicalAnalyzer.getLexemes()) {
+                System.out.println("Tokens:");
+
+                for (Lexeme lexeme : lexicalLAnalyzer.getLexemes()) {
                     System.out.println(lexeme.getToken() + " -> " + lexeme.getValue());
                 }
+
+                System.out.println();
+                System.out.println("Statements:");
+
+                SAnalyzer syntaxAnalyzer = new SAnalyzer(lexicalLAnalyzer.getLexemes());
+                syntaxAnalyzer.analyzeExpressions();
+
+                for (Node node : syntaxAnalyzer.getNodes()) {
+                    System.out.println(node.getType());
+                    if (node.getType().equals(Statements.EXPRESSION)) {
+                        for (Node child : node.getChildren()) {
+                            System.out.print(child.getLexeme().getValue());
+                        }
+                        System.out.println();
+                    }
+                }
+
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                e.printStackTrace();
             }
 
         } catch (FileNotFoundException e) {

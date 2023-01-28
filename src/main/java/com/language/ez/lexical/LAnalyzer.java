@@ -1,8 +1,10 @@
 package com.language.ez.lexical;
 
+import com.language.ez.Q;
+
 import java.util.*;
 
-public class Analyzer {
+public class LAnalyzer {
     private final static HashMap<Q, List<Q>> transitionTable = new HashMap<>();
     private final static HashMap<Character, Integer> tableColum = new HashMap<>();
     private final static HashMap<String, Tokens> alphabet = new HashMap<>();
@@ -65,7 +67,6 @@ public class Analyzer {
         alphabet.put("*=", Tokens.MULTIPLICATION_ASSIGNMENT_OPERATOR);
         alphabet.put("/=", Tokens.DIVISION_ASSIGNMENT_OPERATOR);
         alphabet.put("%=", Tokens.MODULO_ASSIGNMENT_OPERATOR);
-        alphabet.put("==", Tokens.EQUALITY_OPERATOR);
         alphabet.put("<", Tokens.LESS_THAN_OPERATOR);
         alphabet.put(">", Tokens.MORE_THAN_OPERATOR);
         alphabet.put("<=", Tokens.LESS_THAN_EQUAL_OPERATOR);
@@ -99,7 +100,7 @@ public class Analyzer {
         alphabet.put("if", Tokens.IF_KEYWORD);
         alphabet.put("else", Tokens.ELIF_KEYWORD);
         alphabet.put("in", Tokens.SCOPE_KEYWORD);
-        alphabet.put("is", Tokens.SWITCH_KEYWORD);
+        alphabet.put("is", Tokens.SWITCH_KEYWORD_EQUALITY_OPERATOR);
         alphabet.put("print", Tokens.PRINT_KEYWORD);
         alphabet.put("count", Tokens.LOOP_KEYWORD);
         alphabet.put("foreach", Tokens.LOOP_KEYWORD);
@@ -118,7 +119,7 @@ public class Analyzer {
         alphabet.put("T", Tokens.DYNAMIC_TYPE_RESERVE_WORD);
     }
 
-    public Analyzer(List<String> statements) {
+    public LAnalyzer(List<String> statements) {
         this.statements = statements;
         this.lexemes = new Stack<>();
     }
@@ -201,8 +202,8 @@ public class Analyzer {
                     }
                     case X -> throw new Exception("Unexpected token '" + ch + "' in line " + (x + 1) + " column " + index + ".");
                     default -> {
-                        if (index == 0) this.lexemes.push(new Lexeme(Tokens.NEW_LINE, null)); // add new line marker
-                        this.lexemes.push(new Lexeme(Tokens.UNKNOWN, Character.toString(ch))); // add character to stack
+                        if (index == 0) this.lexemes.push(new Lexeme(Tokens.NEW_LINE, null, x, index)); // add new line marker
+                        this.lexemes.push(new Lexeme(Tokens.UNKNOWN, Character.toString(ch), x, index)); // add character to stack
                         cursor++; // store value length if not space
                         currentState = nextState; // go to next state
                         index++; // go to next character
@@ -240,14 +241,14 @@ public class Analyzer {
                     // throw exception if unidentified
                     if (token == null) throw new Exception("Invalid symbol or punctuation '" + current.getValue() + "'.");
                     // push to new stack if identified
-                    newLexemes.push(new Lexeme(token, current.getValue()));
+                    newLexemes.push(new Lexeme(token, current.getValue(), current.getLine(), current.getColumn()));
 
                     // check for indention
                     if ((token == Tokens.COLON_DELIMITER || token == Tokens.COMMA_DELIMITER) && (index + 1) < this.lexemes.size()) {
                         Lexeme next = this.lexemes.get(index + 1);
 
                         if (next.getToken() == Tokens.NEW_LINE) {
-                            newLexemes.push(new Lexeme(Tokens.INDENT_DELIMITER, null)); // push indent
+                            newLexemes.push(new Lexeme(Tokens.INDENT_DELIMITER, null, current.getLine(), current.getColumn())); // push indent
                             indent++; // record indention to ignore tabs later
                         }
                     }
@@ -257,7 +258,7 @@ public class Analyzer {
                     // check what kind of symbol or operator
                     Tokens token = alphabet.get(current.getValue());
                     // push as identifier if unidentified but push to new stack if identified
-                    newLexemes.push(new Lexeme(Objects.requireNonNullElse(token, Tokens.IDENTIFIER), current.getValue()));
+                    newLexemes.push(new Lexeme(Objects.requireNonNullElse(token, Tokens.IDENTIFIER), current.getValue(), current.getLine(), current.getColumn()));
                     index++; // go to next lexeme
                 }
                 case NEW_LINE -> {
@@ -270,7 +271,7 @@ public class Analyzer {
                         for (int i = 1; i <= temp; i++) {
                             if (this.lexemes.get(index + i).getToken() == Tokens.TAB) skipped++; // skip tabs if indented
                             else {
-                                newLexemes.push(new Lexeme(Tokens.DEDENT_DELIMITER, null)); // push dedent if indent ends
+                                newLexemes.push(new Lexeme(Tokens.DEDENT_DELIMITER, null, current.getLine(), current.getColumn())); // push dedent if indent ends
                                 indent--; // delete record of indention
                             }
                         }
@@ -280,8 +281,8 @@ public class Analyzer {
                 }
                 case DECIMAL -> { // bug fix when last character is period
                     if (current.getValue().endsWith(".")) {
-                        newLexemes.push(new Lexeme(Tokens.INTEGER, current.getValue().substring(0, current.getValue().length() -1)));
-                        newLexemes.push(new Lexeme(Tokens.STATEMENT_END_DELIMITER, "."));
+                        newLexemes.push(new Lexeme(Tokens.INTEGER, current.getValue().substring(0, current.getValue().length() -1), current.getLine(), current.getColumn()));
+                        newLexemes.push(new Lexeme(Tokens.STATEMENT_END_DELIMITER, ".", current.getLine(), current.getColumn()));
                     } else {
                         newLexemes.push(current);
                     }
@@ -296,7 +297,7 @@ public class Analyzer {
         }
 
         for (int i = 0; i < indent; i++) {
-            newLexemes.push(new Lexeme(Tokens.DEDENT_DELIMITER, null));
+            newLexemes.push(new Lexeme(Tokens.DEDENT_DELIMITER, null, index, i));
         }
 
         // update lexemes but ignore new line tokens because it is used only to detect indents
@@ -306,11 +307,11 @@ public class Analyzer {
             Lexeme currentLexeme = newLexemes.get(z);
             if (currentLexeme.getToken() == Tokens.IDENTIFIER) {
                 if (newLexemes.get(z + 1).getToken() == Tokens.CONSTANT_TYPE) {
-                    this.lexemes.push(new Lexeme(Tokens.CONSTANT_IDENTIFIER, currentLexeme.getValue() + "!"));
+                    this.lexemes.push(new Lexeme(Tokens.CONSTANT_IDENTIFIER, currentLexeme.getValue() + "!", currentLexeme.getLine(), currentLexeme.getColumn()));
                     z++;
                 }
                 else if (newLexemes.get(z + 1).getToken() == Tokens.NULL_TYPE) {
-                    this.lexemes.push(new Lexeme(Tokens.NULLABLE_IDENTIFIER, currentLexeme.getValue() + "?"));
+                    this.lexemes.push(new Lexeme(Tokens.NULLABLE_IDENTIFIER, currentLexeme.getValue() + "?", currentLexeme.getLine(), currentLexeme.getColumn()));
                     z++;
                 }
                 else {
@@ -337,6 +338,8 @@ public class Analyzer {
 
     private void reduceValues(Tokens tokenType, int valueLength) {
         StringBuilder value = new StringBuilder();
+        int column = this.lexemes.peek().getColumn();
+        int line = this.lexemes.peek().getLine();
 
         int index = 0;
         while (index < valueLength) {
@@ -347,7 +350,7 @@ public class Analyzer {
             }
         }
 
-        Lexeme newLexeme = new Lexeme(tokenType, value.toString()); // save concat value in new lexeme
+        Lexeme newLexeme = new Lexeme(tokenType, value.toString(), line, column); // save concat value in new lexeme
         this.lexemes.push(newLexeme);
     }
 }
