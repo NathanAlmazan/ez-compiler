@@ -35,7 +35,7 @@ public class LAnalyzer {
         transitionTable.put(Q.S19, Arrays.asList(Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8,  Q.R8, Q.S20,Q.R8, Q.R8, Q.R8, Q.R8,  Q.R8, Q.R8 )); // space to tab rules
         transitionTable.put(Q.S20, Arrays.asList(Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8, Q.R8,  Q.R8, Q.S21,Q.R8, Q.R8, Q.R8, Q.R8,  Q.R8, Q.R8 )); // space to tab rules
         transitionTable.put(Q.S21, Arrays.asList(Q.R9, Q.R9, Q.R9, Q.R9, Q.R9, Q.R9, Q.R9, Q.R9, Q.R9,  Q.R9, Q.R9, Q.R9, Q.R9, Q.R9, Q.R9,  Q.R9, Q.R9 )); // space to tab rules
-        transitionTable.put(Q.S22, Arrays.asList(Q.S22,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10, Q.R10,Q.R10,Q.X,  Q.X,  Q.X,  Q.X,   Q.R10,Q.R10)); // decimal rules
+        transitionTable.put(Q.S22, Arrays.asList(Q.S22,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10,Q.R10, Q.R10,Q.R10,Q.R10,Q.X,  Q.X,  Q.X,   Q.R10,Q.R10)); // decimal rules
 
         // get the column in the transition table
         tableColum.put('+', 1);
@@ -95,17 +95,17 @@ public class LAnalyzer {
         alphabet.put("wrd", Tokens.WRD_DATA_TYPE);
         alphabet.put("btn", Tokens.BTN_DATA_TYPE);
         alphabet.put("to", Tokens.ASSIGN_OR_SCOPE_KEYWORD);
-        alphabet.put("from", Tokens.SCOPE_KEYWORD);
+        alphabet.put("from", Tokens.FROM_SCOPE_KEYWORD);
         alphabet.put("as", Tokens.ASSIGN_TYPE_KEYWORD);
         alphabet.put("if", Tokens.IF_KEYWORD);
         alphabet.put("else", Tokens.ELIF_KEYWORD);
         alphabet.put("in", Tokens.SCOPE_KEYWORD);
         alphabet.put("is", Tokens.SWITCH_KEYWORD_EQUALITY_OPERATOR);
         alphabet.put("print", Tokens.PRINT_KEYWORD);
-        alphabet.put("count", Tokens.LOOP_KEYWORD);
-        alphabet.put("foreach", Tokens.LOOP_KEYWORD);
-        alphabet.put("while", Tokens.LOOP_KEYWORD);
-        alphabet.put("do", Tokens.LOOP_KEYWORD);
+        alphabet.put("count", Tokens.COUNT_LOOP_KEYWORD);
+        alphabet.put("foreach", Tokens.FOREACH_LOOP_KEYWORD);
+        alphabet.put("while", Tokens.WHILE_LOOP_KEYWORD);
+        alphabet.put("do", Tokens.DO_WHILE_LOOP_KEYWORD);
         alphabet.put("and", Tokens.AND_OPERATOR);
         alphabet.put("or", Tokens.OR_OPERATOR);
         alphabet.put("put", Tokens.SCANNER_DECLARATION_KEYWORD);
@@ -116,6 +116,7 @@ public class LAnalyzer {
         alphabet.put("not", Tokens.NOT_OPERATOR);
         alphabet.put("model", Tokens.MODEL_DECLARATION_KEYWORD);
         alphabet.put("default", Tokens.IMPLEMENTING_TASK_KEYWORD);
+        alphabet.put("by", Tokens.LOOP_STEP_KEYWORD);
         alphabet.put("T", Tokens.DYNAMIC_TYPE_RESERVE_WORD);
     }
 

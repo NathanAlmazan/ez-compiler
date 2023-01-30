@@ -2,9 +2,7 @@ package com.language.ez;
 
 import com.language.ez.lexical.LAnalyzer;
 import com.language.ez.lexical.Lexeme;
-import com.language.ez.syntax.Node;
 import com.language.ez.syntax.SAnalyzer;
-import com.language.ez.syntax.Statements;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -47,16 +45,9 @@ public class EzLanguage {
 
                 SAnalyzer syntaxAnalyzer = new SAnalyzer(lexicalLAnalyzer.getLexemes());
                 syntaxAnalyzer.analyzeExpressions();
-
-                for (Node node : syntaxAnalyzer.getNodes()) {
-                    System.out.println(node.getType());
-                    if (node.getType().equals(Statements.EXPRESSION)) {
-                        for (Node child : node.getChildren()) {
-                            System.out.print(child.getLexeme().getValue());
-                        }
-                        System.out.println();
-                    }
-                }
+                syntaxAnalyzer.analyzePrimaryStatements();
+                syntaxAnalyzer.analyzeSecondaryStatements();
+                syntaxAnalyzer.printNodes();
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
