@@ -217,6 +217,18 @@ public class SAnalyzer extends Machines {
                     reduced.setState(state);
                     nodes.push(reduced);
                 }
+                case R18 -> {
+                    Node reduced = nodeReducer(Statements.ARRAY_DATA_TYPE, 3);
+                    state = getPrimaryTransition(nodes.peek().getState(), reduced);
+                    reduced.setState(state);
+                    nodes.push(reduced);
+                }
+                case R19 -> {
+                    Node reduced = nodeReducer(Statements.ARRAY_DECLARATION, 2);
+                    state = getPrimaryTransition(nodes.peek().getState(), reduced);
+                    reduced.setState(state);
+                    nodes.push(reduced);
+                }
                 case X -> throw new Exception(exceptionBuilder(current));
                 default -> {
                     current.setState(state);
