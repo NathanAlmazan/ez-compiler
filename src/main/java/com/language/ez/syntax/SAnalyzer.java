@@ -329,6 +329,30 @@ public class SAnalyzer extends Machines {
                     reduced.setState(state);
                     nodes.push(reduced);
                 }
+                case R13 -> {
+                    Node reduced = nodeReducer(Statements.FUNCTION_CALL_PARAM, 1);
+                    state = getSecondaryTransition(nodes.peek().getState(), reduced);
+                    reduced.setState(state);
+                    nodes.push(reduced);
+                }
+                case R14 -> {
+                    Node reduced = nodeReducer(Statements.FUNCTION_CALL, 5);
+                    state = getSecondaryTransition(nodes.peek().getState(), reduced);
+                    reduced.setState(state);
+                    nodes.push(reduced);
+                }
+                case R15 -> {
+                    Node reduced = nodeReducer(Statements.FUNCTION_CALL_PARAM, 3);
+                    state = getSecondaryTransition(nodes.peek().getState(), reduced);
+                    reduced.setState(state);
+                    nodes.push(reduced);
+                }
+                case R16 -> {
+                    Node reduced = nodeReducer(Statements.MODEL_CALL, 7);
+                    state = getSecondaryTransition(nodes.peek().getState(), reduced);
+                    reduced.setState(state);
+                    nodes.push(reduced);
+                }
                 case X -> throw new Exception(exceptionBuilder(current));
                 default -> {
                     current.setState(state);
@@ -336,6 +360,8 @@ public class SAnalyzer extends Machines {
                     index++;
                 }
             }
+
+            System.out.println(state);
         }
     }
 

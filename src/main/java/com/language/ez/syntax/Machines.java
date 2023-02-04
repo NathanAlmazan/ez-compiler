@@ -17,6 +17,8 @@ public abstract class Machines {
     static {
                                                                        //             n    id   +    -    *    /    ^    %    <    >    <=  >=    ==   &&   ||    !   (    )    +=   -=   *=   /=   %=   |    $
         operatorPrecedence.put(Tokens.INTEGER,                         Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
+        operatorPrecedence.put(Tokens.BOOLEAN_TRUE_RESERVE_WORD,       Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
+        operatorPrecedence.put(Tokens.BOOLEAN_FALSE_RESERVE_WORD,      Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.DECIMAL,                         Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.STRING_LITERAL,                  Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.CHARACTER_LITERAL,               Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
@@ -49,6 +51,8 @@ public abstract class Machines {
 
         // columns
         precedenceColumn.put(Tokens.INTEGER, 0);
+        precedenceColumn.put(Tokens.BOOLEAN_FALSE_RESERVE_WORD, 0);
+        precedenceColumn.put(Tokens.BOOLEAN_TRUE_RESERVE_WORD, 0);
         precedenceColumn.put(Tokens.DECIMAL, 0);
         precedenceColumn.put(Tokens.STRING_LITERAL, 0);
         precedenceColumn.put(Tokens.CHARACTER_LITERAL, 0);
@@ -103,12 +107,12 @@ public abstract class Machines {
         primaryTransition.put(Q.S3,  Arrays.asList(Q.X,  Q.X, Q.X,  Q.S4, Q.R1,Q.X, Q.R1, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.S27,Q.X,  Q.S30,Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S4,  Arrays.asList(Q.X,  Q.X, Q.S3, Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S10,Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S5,  Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.S7,Q.X, Q.S6, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S6,  Arrays.asList(Q.R2, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.R2, Q.R2, Q.R2, Q.R2, Q.S0, Q.R2, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R2, Q.X,  Q.X,  Q.X,  Q.X, Q.R2,Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S6,  Arrays.asList(Q.R2, Q.X, Q.R2, Q.X,  Q.X, Q.X, Q.X,  Q.R2, Q.R2, Q.R2, Q.R2, Q.S0, Q.R2, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R2, Q.X,  Q.X,  Q.X,  Q.X, Q.R2,Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S7,  Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.S8,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S8,  Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.S9, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S9,  Arrays.asList(Q.R3, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.R3, Q.R3, Q.R3, Q.R3, Q.S0, Q.R3, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R3, Q.X,  Q.X,  Q.X,  Q.X, Q.R3,Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S9,  Arrays.asList(Q.R3, Q.X, Q.R3, Q.X,  Q.X, Q.X, Q.X,  Q.R3, Q.R3, Q.R3, Q.R3, Q.S0, Q.R3, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R3, Q.X,  Q.X,  Q.X,  Q.X, Q.R3,Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S10, Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.R4,Q.X, Q.R4, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S11, Arrays.asList(Q.R5, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.R5, Q.R5, Q.R5, Q.R5, Q.X,  Q.R5, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R5, Q.X,  Q.X,  Q.X,  Q.X, Q.R5, Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S11, Arrays.asList(Q.R5, Q.X, Q.R5, Q.X,  Q.X, Q.X, Q.X,  Q.R5, Q.R5, Q.R5, Q.R5, Q.X,  Q.R5, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R5, Q.X,  Q.X,  Q.X,  Q.X, Q.R5, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S12, Arrays.asList(Q.S13,Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S13, Arrays.asList(Q.X,  Q.X, Q.X,  Q.S14,Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S14, Arrays.asList(Q.R6, Q.X, Q.R6, Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.R6, Q.R6, Q.X,  Q.R6, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R6, Q.X,  Q.X,  Q.X,  Q.X, Q.R6,Q.X, Q.X, Q.X));
@@ -117,17 +121,17 @@ public abstract class Machines {
         primaryTransition.put(Q.S17, Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S18,Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S18, Arrays.asList(Q.S19,Q.X, Q.S19,Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S19,Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.S19,Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S19, Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.S20,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.S21,Q.X,  Q.X,  Q.S30,Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S20, Arrays.asList(Q.R8, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.R8, Q.R8, Q.R8, Q.R8, Q.X,  Q.R8, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R8, Q.X,  Q.X,  Q.X,  Q.X, Q.R8,Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S20, Arrays.asList(Q.R8, Q.X, Q.R8, Q.X,  Q.X, Q.X, Q.X,  Q.R8, Q.R8, Q.R8, Q.R8, Q.X,  Q.R8, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R8, Q.X,  Q.X,  Q.X,  Q.X, Q.R8,Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S21, Arrays.asList(Q.S22,Q.X, Q.S22,Q.X,  Q.X, Q.S42,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.S44,Q.S23,Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S22, Arrays.asList(Q.X,  Q.X, Q.X,  Q.S24,Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S0, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.R9, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S23, Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.S26,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S24, Arrays.asList(Q.S22,Q.X, Q.S22,Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.S25,Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S25, Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.R10,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S26, Arrays.asList(Q.X,  Q.R11,Q.X,  Q.X,  Q.X, Q.X, Q.R11,Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S26, Arrays.asList(Q.X,  Q.R11,Q.X,  Q.X,  Q.X, Q.X, Q.R11,Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.R11,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S27, Arrays.asList(Q.S28,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S28, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.S29,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S29, Arrays.asList(Q.X,  Q.R12,  Q.X,  Q.X,Q.R12, Q.X, Q.R12, Q.X,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S30, Arrays.asList(Q.X,  Q.R13,Q.X,  Q.X, Q.R13,Q.X, Q.R13, Q.X,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S29, Arrays.asList(Q.X,  Q.R12,Q.X,  Q.X,Q.R12, Q.X, Q.R12,Q.X,Q.X,  Q.X,  Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S30, Arrays.asList(Q.X,  Q.R13,Q.X,  Q.X, Q.R13,Q.X, Q.R13,Q.X,Q.X,  Q.X,  Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S31, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.S32,Q.X, Q.X));
         primaryTransition.put(Q.S32, Arrays.asList(Q.S33,Q.X,  Q.S33,Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S33, Arrays.asList(Q.X,  Q.S34,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
@@ -140,48 +144,57 @@ public abstract class Machines {
         primaryTransition.put(Q.S40, Arrays.asList(Q.X,  Q.X,  Q.S31,Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S41, Arrays.asList(Q.R17,Q.X,  Q.R17,Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.R17,Q.R17,Q.X,  Q.R17,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R17,Q.X,  Q.X,  Q.X,  Q.X, Q.R17,Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S42, Arrays.asList(Q.X,  Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.S43,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
-        primaryTransition.put(Q.S43, Arrays.asList(Q.X,  Q.X, Q.X,  Q.R18,Q.X, Q.X, Q.R18,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
+        primaryTransition.put(Q.S43, Arrays.asList(Q.X,  Q.X, Q.X,  Q.R18,Q.X, Q.X, Q.R18,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R18,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S44, Arrays.asList(Q.X,  Q.R19,Q.X, Q.X,  Q.X, Q.X, Q.R19,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
         primaryTransition.put(Q.S45, Arrays.asList(Q.X,  Q.S2,Q.X, Q.S0,  Q.X, Q.X, Q.S0, Q.X,  Q.X,  Q.X,  Q.X,  Q.S0, Q.S0, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.S27,Q.X,  Q.S30, Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X));
 
 
-        // transition for functions, and loops        E     id     fc     w     do  put     in    :     V    task   mod   {    }    dt   (    )    ,   ind   pr    out   .   dd   P     $    P    PL
-        secondaryTransition.put(Q.S0,  Arrays.asList(Q.S0, Q.S29, Q.S1, Q.S6, Q.S9,Q.S11, Q.X,  Q.X,  Q.S0, Q.S13,Q.S13,Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.S0,Q.S0, Q.S26,Q.X, Q.S0,Q.X, Q.S0, Q.X, Q.X));
-        secondaryTransition.put(Q.S1,  Arrays.asList(Q.X,  Q.S2,  Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S2,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.S3, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S3,  Arrays.asList(Q.X,  Q.S4,  Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S4,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S5, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S5,  Arrays.asList(Q.R1, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R1, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.R1,Q.R1, Q.X,  Q.X, Q.X, Q.X, Q.R1, Q.X, Q.X));
-        secondaryTransition.put(Q.S6,  Arrays.asList(Q.S7, Q.S7,  Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S7,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S8, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S8,  Arrays.asList(Q.R2, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R2, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.R2,Q.R2, Q.X,  Q.X, Q.X, Q.X, Q.R2, Q.X, Q.X));
-        secondaryTransition.put(Q.S9,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.S29,Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S10, Arrays.asList(Q.R3, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R3, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.R3,Q.R3, Q.X,  Q.X, Q.X, Q.X, Q.R3, Q.X, Q.X));
-        secondaryTransition.put(Q.S11, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.S12,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S12, Arrays.asList(Q.R4, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R4, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X, Q.X, Q.R4,Q.R4, Q.R4, Q.X, Q.R4,Q.X, Q.R4, Q.X, Q.X));
+        // transition for functions, and loops        E     id     fc     w     do  put     in    :     V    task   mod   {     }    dt    (    )    ,   ind   pr    out   .   dd   P     $    P    PL
+        secondaryTransition.put(Q.S0,  Arrays.asList(Q.S0, Q.S29, Q.S1, Q.S6, Q.S9,Q.S11, Q.X,  Q.X,  Q.S0, Q.S13,Q.S13,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.S0,Q.S0, Q.S26,Q.X, Q.S0,Q.X, Q.S0, Q.X, Q.X));
+        secondaryTransition.put(Q.S1,  Arrays.asList(Q.X,  Q.S2,  Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S2,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.S3, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S3,  Arrays.asList(Q.X,  Q.S4,  Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S4,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S5, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S5,  Arrays.asList(Q.R1, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R1, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.R1,Q.R1, Q.X,  Q.X, Q.X, Q.X, Q.R1, Q.X, Q.X));
+        secondaryTransition.put(Q.S6,  Arrays.asList(Q.S7, Q.S7,  Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S7,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S8, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S8,  Arrays.asList(Q.R2, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R2, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.R2,Q.R2, Q.X,  Q.X, Q.X, Q.X, Q.R2, Q.X, Q.X));
+        secondaryTransition.put(Q.S9,  Arrays.asList(Q.X,  Q.X,   Q.X,  Q.S29,Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S10, Arrays.asList(Q.R3, Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R3, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.R3,Q.R3, Q.X,  Q.X, Q.X, Q.X, Q.R3, Q.X, Q.X));
+        secondaryTransition.put(Q.S11, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.S12,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
+        secondaryTransition.put(Q.S12, Arrays.asList(Q.R4, Q.R4,  Q.R4, Q.X,  Q.X, Q.R4,  Q.X,  Q.X,  Q.R4, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.R4,Q.R4, Q.R4, Q.X, Q.R4,Q.X, Q.R4, Q.X, Q.X));
 
-        secondaryTransition.put(Q.S13, Arrays.asList(Q.X,  Q.S14, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S14, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.S15,Q.X,  Q.X,  Q.S15,Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S15, Arrays.asList(Q.X,  Q.S16, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.S31,Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.S19,Q.S22));
-        secondaryTransition.put(Q.S16, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S17,Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S17, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.S18,Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S18, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.R5, Q.X,  Q.X,  Q.R5, Q.R5,Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S19, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.R6, Q.X,  Q.X,  Q.R6, Q.S20,Q.X,Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.X,  Q.X));
-        secondaryTransition.put(Q.S20, Arrays.asList(Q.X,  Q.S16, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X, Q.S19,Q.S21));
-        secondaryTransition.put(Q.S21, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.R7, Q.X,  Q.X,  Q.R7, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S22, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.S25,Q.X,  Q.X,  Q.S23,Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S23, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S24,Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S24, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R8, Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.R8,Q.R8, Q.R8, Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S25, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R8, Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.R9,Q.R9, Q.R9, Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S26, Arrays.asList(Q.S27,Q.S27, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S27, Arrays.asList(Q.R11,Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R11,Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.R11,Q.X,  Q.S28,Q.R11,Q.X, Q.X,Q.X, Q.X));
-        secondaryTransition.put(Q.S28, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X,Q.R10,Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S29, Arrays.asList(Q.S30,Q.S30, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S30, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S10,Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S31, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S32,Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-        secondaryTransition.put(Q.S32, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,Q.R12,Q.R12,Q.R12,Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X));
-
-
+        //                                             E     id    fc     w    do  put     in    :     V    task   mod   {     }    dt    (       )    ,     ind   pr    out   .   dd   P     $    P    PL
+        secondaryTransition.put(Q.S13, Arrays.asList(Q.X,  Q.S14, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S14, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S15,Q.X,  Q.X,  Q.S15,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S15, Arrays.asList(Q.X,  Q.S16, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S31,Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.S19,Q.S22, Q.X, Q.X));
+        secondaryTransition.put(Q.S16, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S17,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S17, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S18,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S18, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R5, Q.X,  Q.X,  Q.R5, Q.R5, Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S19, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R6, Q.X,  Q.X,  Q.R6, Q.S20,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X,  Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S20, Arrays.asList(Q.X,  Q.S16, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.S19,Q.S21, Q.X, Q.X));
+        secondaryTransition.put(Q.S21, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R7, Q.X,  Q.X,  Q.R7, Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S22, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S25,Q.X,  Q.X,  Q.S23,Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S23, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S24,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S24, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R8, Q.R8, Q.R8, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R8, Q.R8, Q.R8, Q.X, Q.X, Q.X, Q.R8, Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S25, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R9, Q.R9, Q.R9, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R9, Q.R9, Q.R9, Q.X, Q.X, Q.X, Q.R9, Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S26, Arrays.asList(Q.S27,Q.S27, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S27, Arrays.asList(Q.R11,Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R11,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R11,Q.X,  Q.S28,Q.R11,Q.X,Q.X, Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S28, Arrays.asList(Q.R10,Q.X,   Q.R10,Q.R10,Q.R10,Q.R10,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,Q.R10,Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S29, Arrays.asList(Q.S30,Q.S30, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S33,Q.X,  Q.X,  Q.S33,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.S0, Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S30, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S10,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S31, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.S32,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S32, Arrays.asList(Q.X,  Q.R12, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.R12,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R12,Q.R12,Q.R12,Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S33, Arrays.asList(Q.S34,Q.R12, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S38,Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.S36, Q.X));
+        secondaryTransition.put(Q.S34, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R13,Q.X,  Q.X,  Q.R13,Q.S35,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S35, Arrays.asList(Q.S34,Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.S39, Q.X));
+        secondaryTransition.put(Q.S36, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S38,Q.X,  Q.X,  Q.S38,Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S37, Arrays.asList(Q.R14,Q.R14, Q.R14,Q.R14,Q.R14,Q.R14,Q.X,  Q.X,  Q.R14,Q.R14,Q.R14,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R14,Q.X,  Q.X,  Q.X,  Q.X, Q.R14,Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S38, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S37,Q.X, Q.X,Q.S37,Q.X, Q.X, Q.X, Q.S40));
+        secondaryTransition.put(Q.S39, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R15,Q.X,  Q.X,  Q.R15,Q.X,  Q.X,  Q.X,  Q.X,  Q.S37,Q.X, Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S40, Arrays.asList(Q.X,  Q.S41, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S41, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S42,Q.X, Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S42, Arrays.asList(Q.R16,Q.R16, Q.R16,Q.R16,Q.R16,Q.R16,Q.X,  Q.X,  Q.R16,Q.R16,Q.R16,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R16,Q.X,  Q.R16,Q.X,  Q.X,  Q.R16,Q.X,Q.R16, Q.X, Q.X,Q.X, Q.X));
 
         secondaryStatements.add(Statements.FOREACH_LOOP_DECLARATION);
         secondaryStatements.add(Statements.WHILE_LOOP_DECLARATION);
@@ -219,6 +232,8 @@ public abstract class Machines {
             while (index < inputTape.size()) {
                 Node current = inputTape.get(index);
 
+                System.out.println(current.getLexeme().getToken());
+
                 P precedence = getOperatorPrecedence(buffer.peek().getLexeme().getToken(), current.getLexeme().getToken());
 
                 switch (precedence) {
@@ -251,7 +266,7 @@ public abstract class Machines {
             Tokens token = node.getLexeme().getToken();
 
             switch (token) {
-                case INTEGER, DECIMAL, CHARACTER_LITERAL, STRING_LITERAL -> {
+                case INTEGER, DECIMAL, CHARACTER_LITERAL, STRING_LITERAL, BOOLEAN_FALSE_RESERVE_WORD, BOOLEAN_TRUE_RESERVE_WORD -> {
                     return 0;
                 }
                 case IDENTIFIER, CONSTANT_IDENTIFIER, NULLABLE_IDENTIFIER -> {
@@ -300,7 +315,7 @@ public abstract class Machines {
         if (node.getLexeme() != null) {
             System.out.println("Primary Token: " + node.getLexeme().getToken());
             switch (node.getLexeme().getToken()) {
-                case NULL_TYPE -> {
+                case NULL_TYPE, BOOLEAN_FALSE_RESERVE_WORD, BOOLEAN_TRUE_RESERVE_WORD -> {
                     return 0;
                 }
                 case ASSIGN_OR_SCOPE_KEYWORD -> {
@@ -410,6 +425,9 @@ public abstract class Machines {
         if (node.getLexeme() != null) {
             System.out.println("Secondary Token: " + node.getLexeme().getToken());
             switch (node.getLexeme().getToken()) {
+                case NULL_TYPE -> {
+                    return 0;
+                }
                 case IDENTIFIER -> {
                     return 1;
                 }
@@ -470,6 +488,9 @@ public abstract class Machines {
                 case DEDENT_DELIMITER -> {
                     return 21;
                 }
+                case ASSIGN_OR_SCOPE_KEYWORD -> {
+                    return 27;
+                }
                 default -> {
                     return 23;
                 }
@@ -501,7 +522,7 @@ public abstract class Machines {
                 case FUNCTION_PARAM_LIST -> {
                     return 25;
                 }
-                case WHILE_LOOP_DECLARATION -> {
+                case FUNCTION_CALL_PARAM -> {
                     return 26;
                 }
                 default -> {
