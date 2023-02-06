@@ -118,6 +118,10 @@ public class LAnalyzer {
         alphabet.put("default", Tokens.IMPLEMENTING_TASK_KEYWORD);
         alphabet.put("by", Tokens.LOOP_STEP_KEYWORD);
         alphabet.put("T", Tokens.DYNAMIC_TYPE_RESERVE_WORD);
+        alphabet.put("stop", Tokens.BREAK_LOOP_KEYWORD);
+        alphabet.put("when", Tokens.SWITCH_STATEMENT_KEYWORD);
+        alphabet.put("are", Tokens.SWITCH_CASE_KEYWORD);
+        alphabet.put("none", Tokens.SWITCH_DEFAULT_KEYWORD);
     }
 
     public LAnalyzer(List<String> statements) {
@@ -353,5 +357,19 @@ public class LAnalyzer {
 
         Lexeme newLexeme = new Lexeme(tokenType, value.toString(), line, column); // save concat value in new lexeme
         this.lexemes.push(newLexeme);
+    }
+
+    public String generateTokenTable() {
+        StringBuilder builder = new StringBuilder();
+
+        for (Lexeme lexeme : lexemes) {
+            builder.append(lexeme.getToken())
+                    .append(" ".repeat(50 - lexeme.getToken().toString().length()))
+                    .append(" | ")
+                    .append(lexeme.getValue())
+                    .append("\n");
+        }
+
+        return builder.toString();
     }
 }
