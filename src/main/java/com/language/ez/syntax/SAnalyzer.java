@@ -139,7 +139,9 @@ public class SAnalyzer extends Machines implements CodeGenerator {
                .append("except NameError as e: \n\t")
                .append("print('Semantic Error: ' + str(e))\n")
                .append("except TypeError as e: \n\t")
-               .append("print('Semantic Error: ' + str(e))");
+               .append("print('Semantic Error: ' + str(e))\n")
+                .append("except Exception as e: \n\t")
+                .append("print('Runtime Error...')");
     }
 
     @Override
@@ -494,7 +496,7 @@ public class SAnalyzer extends Machines implements CodeGenerator {
         analyzeSpecialFunctionCalls();
     }
 
-    public void analyzeSpecialFunctionCalls() {
+    public void analyzeSpecialFunctionCalls() throws Exception {
         List<Node> temp = new ArrayList<>(nodes);
         nodes.clear();
 
@@ -552,6 +554,7 @@ public class SAnalyzer extends Machines implements CodeGenerator {
                     reduced.setState(state);
                     nodes.push(reduced);
                 }
+                case X -> throw new Exception(exceptionBuilder(current));
                 default -> {
                     current.setState(state);
                     nodes.push(current);

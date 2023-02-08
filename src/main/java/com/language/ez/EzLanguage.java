@@ -64,7 +64,7 @@ public class EzLanguage {
                 // System.out.println("Output: ");
                 // System.out.println(syntaxAnalyzer.getCode());
 
-                String outputPath = "C:\\Users\\Administrator\\Documents\\" + ezCode.getName().split("\\.")[0] + ".py";
+                String outputPath = "C:\\ezlang\\scripts\\" + ezCode.getName().split("\\.")[0] + ".py";
                 FileWriter outputWriter = new FileWriter(outputPath);
                 outputWriter.write(syntaxAnalyzer.getCode());
                 outputWriter.close();
@@ -72,11 +72,12 @@ public class EzLanguage {
                 Runtime.getRuntime().exec("cmd /c start \"EZ LANGUAGE\" cmd.exe /K \"python " + outputPath + "\"");
 
             } catch (Exception e) {
-                FileWriter logWriter = new FileWriter("C:\\Users\\Administrator\\Documents\\logger.py");
+                FileWriter logWriter = new FileWriter("C:\\ezlang\\scripts\\logger.py");
                 logWriter.write("print('" + e.getMessage() + "')");
                 logWriter.close();
 
-                Runtime.getRuntime().exec("cmd /c start \"EZ LANGUAGE\" cmd.exe /K \"python C:\\Users\\Administrator\\Documents\\logger.py");
+                Runtime.getRuntime().exec("cmd /c start \"EZ LANGUAGE\" cmd.exe /K \"python C:\\ezlang\\scripts\\logger.py");
+                // e.printStackTrace();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

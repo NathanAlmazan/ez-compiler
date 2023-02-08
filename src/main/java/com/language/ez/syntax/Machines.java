@@ -17,9 +17,9 @@ public abstract class Machines {
 
     static {
                                                                        //             n    id   +    -    *    /    ^    %    <    >    <=  >=    ==   &&   ||    !   (    )    +=   -=   *=   /=   %=   |    $
-        operatorPrecedence.put(Tokens.INTEGER,                         Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
+        operatorPrecedence.put(Tokens.INTEGER,                         Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.BOOLEAN_TRUE_RESERVE_WORD,       Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
-        operatorPrecedence.put(Tokens.BOOLEAN_FALSE_RESERVE_WORD,      Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
+        operatorPrecedence.put(Tokens.BOOLEAN_FALSE_RESERVE_WORD,      Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.DECIMAL,                         Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.STRING_LITERAL,                  Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
         operatorPrecedence.put(Tokens.CHARACTER_LITERAL,               Arrays.asList(P.X, P.X, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.X, P.G));
@@ -37,8 +37,8 @@ public abstract class Machines {
         operatorPrecedence.put(Tokens.LESS_THAN_EQUAL_OPERATOR,        Arrays.asList(P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
         operatorPrecedence.put(Tokens.MORE_THAN_EQUAL_OPERATOR,        Arrays.asList(P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
         operatorPrecedence.put(Tokens.SWITCH_KEYWORD_EQUALITY_OPERATOR,Arrays.asList(P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.X, P.X, P.X, P.X, P.X, P.G, P.G, P.L, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
-        operatorPrecedence.put(Tokens.AND_OPERATOR,                    Arrays.asList(P.X, P.L, P.X, P.X, P.X, P.X, P.X, P.X, P.L, P.L, P.L, P.L, P.L, P.G, P.G, P.L, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
-        operatorPrecedence.put(Tokens.OR_OPERATOR,                     Arrays.asList(P.X, P.L, P.X, P.X, P.X, P.X, P.X, P.X, P.L, P.L, P.L, P.L, P.L, P.L, P.G, P.L, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
+        operatorPrecedence.put(Tokens.AND_OPERATOR,                    Arrays.asList(P.X, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.G, P.G, P.L, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
+        operatorPrecedence.put(Tokens.OR_OPERATOR,                     Arrays.asList(P.X, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.G, P.L, P.L, P.L, P.L, P.L, P.L, P.G, P.L, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
         operatorPrecedence.put(Tokens.NOT_OPERATOR,                    Arrays.asList(P.L, P.L, P.X, P.X, P.X, P.X, P.X, P.X, P.L, P.L, P.L, P.L, P.L, P.G, P.G, P.G, P.L, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
         operatorPrecedence.put(Tokens.OPEN_PARENTHESIS_DELIMITER,      Arrays.asList(P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.L, P.E, P.G, P.G, P.G, P.G, P.G, P.L, P.G));
         operatorPrecedence.put(Tokens.CLOSE_PARENTHESIS_DELIMITER,     Arrays.asList(P.L, P.L, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.G, P.X, P.G, P.X, P.X, P.X, P.X, P.X, P.L, P.G));
@@ -192,7 +192,7 @@ public abstract class Machines {
         secondaryTransition.put(Q.S34, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R13,Q.X,  Q.X,  Q.R13,Q.S35,Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
         secondaryTransition.put(Q.S35, Arrays.asList(Q.S34,Q.S34, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.S39, Q.X));
         secondaryTransition.put(Q.S36, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S38,Q.X,  Q.X,  Q.S38,Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X, Q.X, Q.X,  Q.X, Q.X, Q.X, Q.X));
-        secondaryTransition.put(Q.S37, Arrays.asList(Q.R14,Q.R14, Q.R14,Q.R14,Q.R14,Q.R14,Q.X,  Q.X,  Q.R14,Q.R14,Q.R14,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R14,Q.X,  Q.R14,Q.X,  Q.X, Q.R14,Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
+        secondaryTransition.put(Q.S37, Arrays.asList(Q.R14,Q.R14, Q.R14,Q.R14,Q.R14,Q.R14,Q.X,  Q.X,  Q.R14,Q.R14,Q.R14,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R14,Q.X,  Q.R14,Q.R14,Q.X, Q.R14,Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
         secondaryTransition.put(Q.S38, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S37,Q.X, Q.X,Q.S37,Q.X, Q.X, Q.X, Q.S40));
         secondaryTransition.put(Q.S39, Arrays.asList(Q.X,  Q.X,   Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R15,Q.X,  Q.X,  Q.R15,Q.X,  Q.X,  Q.X,  Q.X,  Q.S37,Q.X, Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
         secondaryTransition.put(Q.S40, Arrays.asList(Q.X,  Q.S41, Q.X,  Q.X,  Q.X, Q.X,   Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X, Q.X,Q.X,  Q.X, Q.X, Q.X, Q.X));
@@ -207,23 +207,24 @@ public abstract class Machines {
         secondaryStatements.add(Statements.DO_WHILE_LOOP_DECLARATION);
         secondaryStatements.add(Statements.INPUT_STATEMENT);
 
-        // function calls                           id   ->     FC      $   FS   NF    s      .     w    ar     n     :     ,     exp   ind
-        tertiaryTransition.put(Q.S0, Arrays.asList(Q.S1, Q.X,  Q.S0, Q.S0, Q.X,  Q.S0, Q.S6, Q.X,  Q.S8, Q.S11,Q.S14,Q.S0, Q.X,  Q.X,  Q.S0));
-        tertiaryTransition.put(Q.S1, Arrays.asList(Q.X,  Q.S2, Q.X,  Q.S0, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S2, Arrays.asList(Q.X,  Q.X,  Q.S3, Q.S0, Q.S5, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S3, Arrays.asList(Q.X,  Q.X,  Q.S3, Q.R1, Q.S4, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S4, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.R2, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S5, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.R3, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S6, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S7, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S7, Arrays.asList(Q.R4, Q.X,  Q.X,  Q.R4, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S8, Arrays.asList(Q.S9, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S9, Q.X));
-        tertiaryTransition.put(Q.S9, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S10,Q.X,  Q.X,  Q.X));
-        tertiaryTransition.put(Q.S10,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R5));
-        tertiaryTransition.put(Q.S11,Arrays.asList(Q.S12,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S12,Q.X));
-        tertiaryTransition.put(Q.S12,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S13,Q.X,  Q.X));
-        tertiaryTransition.put(Q.S13,Arrays.asList(Q.R6, Q.X,  Q.X,  Q.R6, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R6));
-        tertiaryTransition.put(Q.S14,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S15,Q.X,  Q.X));
-        tertiaryTransition.put(Q.S15,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.R7, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R7));
+        // function calls                           id   ->     FC      $   FS   NF    s      .     w    ar     n     :     ,     exp   ind   dd
+        tertiaryTransition.put(Q.S0, Arrays.asList(Q.S1, Q.X,  Q.S0, Q.S0, Q.X,  Q.S0, Q.S6, Q.X,  Q.S8, Q.S11,Q.S14,Q.S0, Q.X,  Q.X,  Q.S16,Q.S0));
+        tertiaryTransition.put(Q.S1, Arrays.asList(Q.X,  Q.S2, Q.X,  Q.S0, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S2, Arrays.asList(Q.X,  Q.X,  Q.S3, Q.S0, Q.S5, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S3, Arrays.asList(Q.X,  Q.X,  Q.S3, Q.R1, Q.S4, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S4, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.R2, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S5, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.R3, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S6, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S7, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S7, Arrays.asList(Q.R4, Q.X,  Q.X,  Q.R4, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S8, Arrays.asList(Q.S9, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S9, Q.X,  Q.X));
+        tertiaryTransition.put(Q.S9, Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S10,Q.X,  Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S10,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R5, Q.X));
+        tertiaryTransition.put(Q.S11,Arrays.asList(Q.S12,Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S12,Q.X,  Q.X));
+        tertiaryTransition.put(Q.S12,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S13,Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S13,Arrays.asList(Q.R6, Q.X,  Q.X,  Q.R6, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R6, Q.X));
+        tertiaryTransition.put(Q.S14,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.S15,Q.X,  Q.X,  Q.X));
+        tertiaryTransition.put(Q.S15,Arrays.asList(Q.X,  Q.X,  Q.X,  Q.R7, Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.X,  Q.R7, Q.X));
+        tertiaryTransition.put(Q.S16,Arrays.asList(Q.S1, Q.X,  Q.S0, Q.S0, Q.X,  Q.S0, Q.S6, Q.X,  Q.S8, Q.S11,Q.S14,Q.S0, Q.X,  Q.X,  Q.X,  Q.X));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -257,6 +258,8 @@ public abstract class Machines {
                 Node current = inputTape.get(index);
 
                 P precedence = getOperatorPrecedence(buffer.peek().getLexeme().getToken(), current.getLexeme().getToken());
+
+                System.out.println(buffer.peek().getLexeme().getToken() + " | " +  current.getLexeme().getToken());
 
                 switch (precedence) {
                     case L -> {
@@ -592,6 +595,9 @@ public abstract class Machines {
                 }
                 case INDENT_DELIMITER -> {
                     return 14;
+                }
+                case DEDENT_DELIMITER -> {
+                    return 15;
                 }
                 default -> {
                     return 3;

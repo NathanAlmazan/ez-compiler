@@ -43,6 +43,8 @@ public interface CodeGenerator {
                         String[] operands = { operations.pop(), operations.pop() };
                         operations.push(operands[1] + "==" + operands[0]);
                     }
+                    case BOOLEAN_FALSE_RESERVE_WORD -> operations.push("False");
+                    case BOOLEAN_TRUE_RESERVE_WORD -> operations.push("True");
                     default -> operations.push(child.getLexeme().getValue());
                 }
             }
@@ -109,7 +111,8 @@ public interface CodeGenerator {
         Node statement = null;
 
         for (Node child : node.getChildren()) {
-            if  (child.getType().equals(Statements.EXPRESSION) || child.getType().equals(Statements.ID))
+            if  (child.getType().equals(Statements.EXPRESSION) || child.getType().equals(Statements.ID)
+                || child.getType().equals(Statements.ACCESS_ARRAY))
                 statement = child;
         }
 
@@ -117,6 +120,8 @@ public interface CodeGenerator {
             return "print(" + convertExpression(statement) + ")\n";
         else if (statement != null && statement.getType().equals(Statements.ID))
             return "print(" + getId(statement) + ")\n";
+        else if (statement != null && statement.getType().equals(Statements.ACCESS_ARRAY))
+            return "print(" + getAccessArray(statement) + ")\n";
 
         return null;
     }
@@ -536,9 +541,10 @@ public interface CodeGenerator {
 
         if (expressionArray != null) {
             for (Node child : expressionArray.getChildren()) {
-                if (child.getType().equals(Statements.EXPRESSION)) {
+                if (child.getType().equals(Statements.EXPRESSION))
                     elements.add(convertExpression(child));
-                }
+                if (child.getType().equals(Statements.ID))
+                    elements.add(getId(child));
             }
 
             Collections.reverse(elements);
@@ -556,13 +562,15 @@ public interface CodeGenerator {
                 name = child.getChildren().get(0).getLexeme().getValue();
             if (child.getType().equals(Statements.ARRAY_ELEMENTS)) {
                 for (Node c : child.getChildren()) {
-                    if (c.getType().equals(Statements.EXPRESSION)) index = convertExpression(c);
-                    if (c.getType().equals(Statements.ID)) index = getId(c);
+                    if (c.getType().equals(Statements.EXPRESSION)) index =  "[" + convertExpression(c) + "]";
+                    if (c.getType().equals(Statements.ID)) index = "[" + getId(c) + "]";
                 }
             }
+            if (child.getType().equals(Statements.ARRAY_DECLARATION))
+                index = getArray(child);
         }
 
-        return name + "[" + index + "]";
+        return name + index;
     }
 
     default String generateVarName(String identifier, String expression, Node dataType) {
