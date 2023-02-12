@@ -23,8 +23,11 @@ public interface CodeGenerator {
             if (child.getLexeme() != null) {
                 switch (child.getLexeme().getToken()) {
                     case ADDITION_OPERATOR, SUBTRACTION_OPERATOR, MULTIPLICATION_OPERATOR, DIVISION_OPERATOR,
-                            MODULO_OPERATOR, LESS_THAN_OPERATOR, MORE_THAN_OPERATOR, LESS_THAN_EQUAL_OPERATOR, MORE_THAN_EQUAL_OPERATOR,
-                            AND_OPERATOR, OR_OPERATOR, ADDITION_ASSIGNMENT, SUBTRACTION_ASSIGNMENT_OPERATOR,
+                            MODULO_OPERATOR, LESS_THAN_OPERATOR, MORE_THAN_OPERATOR, LESS_THAN_EQUAL_OPERATOR, MORE_THAN_EQUAL_OPERATOR -> {
+                        String[] operands = { operations.pop(), operations.pop() };
+                        operations.push("(" + operands[1] + " " + child.getLexeme().getValue() + " " + operands[0] + ")");
+                    }
+                    case AND_OPERATOR, OR_OPERATOR, ADDITION_ASSIGNMENT, SUBTRACTION_ASSIGNMENT_OPERATOR,
                             MULTIPLICATION_ASSIGNMENT_OPERATOR, DIVISION_ASSIGNMENT_OPERATOR, MODULO_ASSIGNMENT_OPERATOR -> {
                         String[] operands = { operations.pop(), operations.pop() };
                         operations.push(operands[1] + " " + child.getLexeme().getValue() + " " + operands[0]);

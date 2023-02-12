@@ -14,6 +14,7 @@ public class SAnalyzer extends Machines implements CodeGenerator {
     private final StringBuilder codeBuilder;
     private final StringBuilder astBuilder;
     private final HashMap<String, List<String>> modelList;
+    private int nodeTab = 0;
     private Stack<Node> nodes;
 
     public SAnalyzer(List<Lexeme> lexemes) {
@@ -32,10 +33,16 @@ public class SAnalyzer extends Machines implements CodeGenerator {
     public void printChildren(Node child, int tab) {
         if (child == null) return;
 
-        astBuilder.append("\t".repeat(tab));
+        astBuilder.append("\t".repeat(tab + nodeTab));
         if (child.getLexeme() != null) {
-            if (child.getLexeme().getToken().equals(Tokens.INDENT_DELIMITER)) astBuilder.append("\nSTART BLOCK \n");
-            else if (child.getLexeme().getToken().equals(Tokens.DEDENT_DELIMITER)) astBuilder.append("\nEND BLOCK \n");
+            if (child.getLexeme().getToken().equals(Tokens.INDENT_DELIMITER)) {
+                astBuilder.append("\tSTART BLOCK");
+                nodeTab++;
+            }
+            else if (child.getLexeme().getToken().equals(Tokens.DEDENT_DELIMITER)) {
+                astBuilder.append("END BLOCK");
+                nodeTab--;
+            }
             else astBuilder.append(child.getLexeme().getToken());
         }
         else {
@@ -71,8 +78,7 @@ public class SAnalyzer extends Machines implements CodeGenerator {
 
        int tabs = 0;
        int switches = 0;
-       int cases = 0;
-       int defaults = 0;
+       int ifStatement = 0;
        for (Node statement : nodes) {
 
            if (tabs > 0) codeBuilder.append("\t".repeat(tabs));
@@ -82,9 +88,22 @@ public class SAnalyzer extends Machines implements CodeGenerator {
                 case PRINT_STATEMENT -> codeBuilder.append(convertPrintStatement(statement));
                 case ASSIGNMENT_DECLARATION -> codeBuilder.append(convertAssignmentDeclaration(statement));
                 case INPUT_STATEMENT -> codeBuilder.append(convertInputStatement(statement));
-                case IF_DECLARATION -> codeBuilder.append(convertIfStatement(statement));
-                case ELIF_DECLARATION -> codeBuilder.append(convertElseIfStatement(statement));
-                case ELSE_DECLARATION -> codeBuilder.append("else: ");
+                case IF_DECLARATION -> {
+                    ifStatement = 1;
+                    codeBuilder.append(convertIfStatement(statement));
+                }
+                case ELIF_DECLARATION -> {
+                    if (ifStatement == 1 || ifStatement == 2) {
+                        ifStatement = 2;
+                        codeBuilder.append(convertElseIfStatement(statement));
+                    } else throw new Exception("Syntax error: If statement is required before else if.");
+                }
+                case ELSE_DECLARATION -> {
+                    if (ifStatement == 2 || ifStatement == 1) {
+                        ifStatement = 3;
+                        codeBuilder.append("else: ");
+                    } else throw new Exception("Syntax error: Else if statement is required before else.");
+                }
                 case FOR_LOOP_DECLARATION -> codeBuilder.append(convertForLoopStatement(statement));
                 case WHILE_LOOP_DECLARATION -> codeBuilder.append(convertWhileLoopStatement(statement));
                 case DO_WHILE_LOOP_DECLARATION -> codeBuilder.append(convertDoWhileLoopStatement(statement, tabs));
@@ -95,16 +114,22 @@ public class SAnalyzer extends Machines implements CodeGenerator {
                 case RETURN_STATEMENT -> codeBuilder.append(convertReturnStatement(statement));
                 case BREAK_LOOP_STATEMENT -> codeBuilder.append("break\n");
                 case SWITCH_DECLARATION -> {
-                    codeBuilder.append(convertSwitchDeclaration(statement));
-                    switches++;
+                    if (switches == 0 || switches == 3) {
+                        switches = 1;
+                        codeBuilder.append(convertSwitchDeclaration(statement));
+                    } else throw new Exception("Syntax error: Invalid switch statement.");
                 }
                 case SWITCH_CASE_DECLARATION -> {
-                    codeBuilder.append(convertSwitchCases(statement));
-                    cases++;
+                    if (switches == 1 || switches == 2) {
+                        switches = 2;
+                        codeBuilder.append(convertSwitchCases(statement));
+                    } else throw new Exception("Syntax error: Invalid case statement.");
                 }
                 case SWITCH_DEFAULT_DECLARATION -> {
-                    codeBuilder.append("case _:  ");
-                    defaults++;
+                    if (switches == 2) {
+                        switches = 3;
+                        codeBuilder.append("case _:  ");
+                    } else throw new Exception("Syntax error: Invalid switch default statement.");
                 }
                 case MODEL_DECLARATION -> {
                     Model model = analyzeModelDeclaration(statement);
@@ -130,8 +155,7 @@ public class SAnalyzer extends Machines implements CodeGenerator {
             }
        }
 
-       if (switches > cases) throw new Exception("Conditions are required in using 'when' clause.");
-       if (defaults > switches) throw new Exception("One default condition only for every 'when' clause.");
+       if (switches < 3 && switches > 0) throw new Exception("Syntax error: Invalid switch statement.");
 
        codeBuilder.append("\n")
                .append("try: \n\t")
@@ -140,8 +164,8 @@ public class SAnalyzer extends Machines implements CodeGenerator {
                .append("print('Semantic Error: ' + str(e))\n")
                .append("except TypeError as e: \n\t")
                .append("print('Semantic Error: ' + str(e))\n")
-                .append("except Exception as e: \n\t")
-                .append("print('Runtime Error...')");
+               .append("except Exception as e: \n\t")
+               .append("print('Runtime Error...')");
     }
 
     @Override
